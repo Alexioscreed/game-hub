@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { searchGameVideo, YouTubeVideo } from '../services/youtube-service';
+import { YouTubeVideo } from '../types';
+import { searchGameVideo } from '../services/youtube-service';
 
 const useYouTubeVideo = (gameName: string) => {
   const [video, setVideo] = useState<YouTubeVideo | null>(null);

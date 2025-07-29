@@ -19,8 +19,8 @@ import { FaHeart, FaRegHeart, FaArrowLeft, FaExternalLinkAlt } from "react-icons
 import useGame from "../hooks/useGame";
 import useFavorites from "../hooks/useFavorites";
 import useRecentlyViewed from "../hooks/useRecentlyViewed";
-import getCroppedImageUrl from "../services/image-url";
-import { validateAndCleanWebsiteUrl, getDomainFromUrl } from "../services/website-utils";
+import getCroppedImageUrl from "../lib/image-utils";
+import { validateAndCleanWebsiteUrl, getDomainFromUrl } from "../lib/website-utils";
 import PlatformIconList from "./PlatformIconList";
 import CrtiticScore from "./CrtiticScore";
 import Emoji from "./Emoji";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Game } from "../hooks/useGames";
+import { Game } from "../types";
 import { 
   Card, 
   CardBody, 
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import PlatformIconList from "./PlatformIconList";
 import CrtiticScore from "./CrtiticScore";
-import getCroppedImageUrl from "../services/image-url";
+import getCroppedImageUrl from "../lib/image-utils";
 import Emoji from "./Emoji";
 import useFavorites from "../hooks/useFavorites";
 import useRecentlyViewed from "../hooks/useRecentlyViewed";

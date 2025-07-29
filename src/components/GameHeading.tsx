@@ -1,5 +1,5 @@
 import { Heading } from '@chakra-ui/react'
-import { GameQuery } from '../App'
+import { GameQuery } from '../types'
 
 interface Props {
     gameQuery: GameQuery

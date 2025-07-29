@@ -1,12 +1,6 @@
-const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
+import { YouTubeVideo } from "../types";
 
-export interface YouTubeVideo {
-  id: string;
-  title: string;
-  thumbnail: string;
-  channelTitle: string;
-  publishedAt: string;
-}
+const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 
 export const searchGameVideo = async (gameName: string): Promise<YouTubeVideo | null> => {
   // If no API key, return a mock video for demonstration

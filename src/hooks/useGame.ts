@@ -1,20 +1,7 @@
 import { useEffect, useState } from "react";
+import { GameDetails } from "../types";
 import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
-
-export interface GameDetails {
-  id: number;
-  name: string;
-  description_raw: string;
-  background_image: string;
-  parent_platforms: { platform: { id: number; name: string; slug: string } }[];
-  metacritic: number;
-  rating_top: number;
-  genres: { id: number; name: string }[];
-  publishers: { id: number; name: string }[];
-  released: string;
-  website: string;
-}
 
 const useGame = (id: string | undefined) => {
   const [game, setGame] = useState<GameDetails | null>(null);

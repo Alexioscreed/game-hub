@@ -13,13 +13,11 @@ import GameGrid from "./GameGrid";
 import GenreList from "./GenreList";
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { Genre } from "../hooks/useGenres";
+import { Genre, Platform, GameQuery } from "../types";
 import PlatformSelector from "./PlatformSelector";
-import { Platform } from "../hooks/useGames";
 import SortSelector from "./SortSelector";
 import GameHeading from "./GameHeading";
 import RecentlyViewedGames from "./RecentlyViewedGames";
-import { GameQuery } from "../App";
 
 const HomePage = () => {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);

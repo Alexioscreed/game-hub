@@ -14,6 +14,7 @@ const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?:
     const [data, SetData] = useState<T[]>([]);
     const [error, setError] = useState('');
     const [isLoading, setLoading] = useState(false);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -22,6 +23,7 @@ const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?:
         apiClient.get<FetchResponse<T>>(endpoint, { signal: controller.signal, ...requestConfig })
             .then((res) => {
                 SetData(res.data.results);
+                setCount(res.data.count);
                 setLoading(false);
             })
             .catch((err) => {
@@ -33,7 +35,7 @@ const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?:
         return () => controller.abort();
     }, deps? [...deps] : []);
 
-    return { data, error, isLoading };
+    return { data, error, isLoading, count };
 };
 
 

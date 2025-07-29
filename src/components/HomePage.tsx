@@ -11,7 +11,8 @@ import {
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import GameGrid from "./GameGrid";
 import GenreList from "./GenreList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Genre } from "../hooks/useGenres";
 import PlatformSelector from "./PlatformSelector";
 import { Platform } from "../hooks/useGames";
@@ -23,12 +24,23 @@ import { GameQuery } from "../App";
 const HomePage = () => {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
   const [showGenres, setShowGenres] = useState(false);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const toast = useToast();
+
+  // Handle URL search parameters
+  useEffect(() => {
+    const searchText = searchParams.get("search");
+    if (searchText) {
+      setGameQuery(prev => ({ ...prev, searchText }));
+    }
+  }, [searchParams]);
 
   // Clear all filters function
   const clearAllFilters = () => {
     setGameQuery({} as GameQuery);
+    navigate("/"); // Clear URL params as well
     toast({
       title: "Filters cleared",
       description: "All filters have been reset",

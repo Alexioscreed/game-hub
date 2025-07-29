@@ -36,8 +36,8 @@ const GameCard = ({ game }: Props) => {
       return;
     }
     
-    addToRecentlyViewed(game);
-    navigate(`/games/${game.id}`);
+    // Use window.location for immediate, reliable navigation
+    window.location.href = `/games/${game.id}`;
   };
 
   const handleFavoriteClick = (e: React.MouseEvent) => {

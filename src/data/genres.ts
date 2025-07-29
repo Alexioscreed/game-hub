@@ -541,7 +541,7 @@ export default [
     },
     {
         "id": 59,
-        "name": "Massively Multiplayer",
+        "name": "Multiplayer",
         "slug": "massively-multiplayer",
         "games_count": 3566,
         "image_background": "https://media.rawg.io/media/games/1bd/1bd2657b81eb0c99338120ad444b24ff.jpg",

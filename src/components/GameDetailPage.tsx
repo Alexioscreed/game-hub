@@ -13,20 +13,23 @@ import {
   Link,
   IconButton,
 } from "@chakra-ui/react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaArrowLeft, FaExternalLinkAlt } from "react-icons/fa";
 import useGame from "../hooks/useGame";
 import useFavorites from "../hooks/useFavorites";
 import useRecentlyViewed from "../hooks/useRecentlyViewed";
 import getCroppedImageUrl from "../services/image-url";
+import { validateAndCleanWebsiteUrl, getDomainFromUrl } from "../services/website-utils";
 import PlatformIconList from "./PlatformIconList";
 import CrtiticScore from "./CrtiticScore";
 import Emoji from "./Emoji";
+import YouTubeVideoCard from "./YouTubeVideoCard";
 
 const GameDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { game, isLoading, error } = useGame(id);
   const { isFavorite, toggleFavorite } = useFavorites();
   const { addToRecentlyViewed } = useRecentlyViewed();
@@ -34,6 +37,34 @@ const GameDetailPage = () => {
   const cardBg = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.600", "gray.300");
   const heartColor = useColorModeValue("red.500", "red.300");
+
+  const handleBackToGames = () => {
+    // Force immediate navigation using window.location - this will always work
+    window.location.href = '/';
+  };
+
+  // Add keyboard support for navigation
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleBackToGames();
+      }
+    };
+
+    // Handle browser back button
+    const handlePopState = () => {
+      // This will be triggered when the user clicks the browser back button
+      // React Router should handle this automatically, but we can add custom logic if needed
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   // Add to recently viewed when game loads
   useEffect(() => {
@@ -61,7 +92,7 @@ const GameDetailPage = () => {
     return (
       <Box textAlign="center" padding={8}>
         <Text color="red.500">Error: {error}</Text>
-        <Button marginTop={4} onClick={() => navigate("/")}>
+        <Button marginTop={4} onClick={handleBackToGames} colorScheme="blue">
           Back to Games
         </Button>
       </Box>
@@ -71,7 +102,7 @@ const GameDetailPage = () => {
     return (
       <Box textAlign="center" padding={8}>
         <Text>Game not found</Text>
-        <Button marginTop={4} onClick={() => navigate("/")}>
+        <Button marginTop={4} onClick={handleBackToGames} colorScheme="blue">
           Back to Games
         </Button>
       </Box>
@@ -80,8 +111,14 @@ const GameDetailPage = () => {
   return (
     <Box padding={{ base: 4, lg: 8 }} maxWidth="1200px" margin="0 auto">
       <HStack justifyContent="space-between" marginBottom={6}>
-        <Button onClick={() => navigate("/")}>
-          ← Back to Games
+        <Button 
+          onClick={handleBackToGames} 
+          colorScheme="blue" 
+          variant="outline"
+          leftIcon={<FaArrowLeft />}
+          size="md"
+        >
+          Back to Games
         </Button>
         
         <IconButton
@@ -163,13 +200,33 @@ const GameDetailPage = () => {
           )}
 
           {/* Website Link */}
-          {game.website && (
-            <Box>
-              <Link href={game.website} isExternal color="blue.400">
-                Visit Official Website
-              </Link>
-            </Box>
-          )}
+          {(() => {
+            const validWebsite = validateAndCleanWebsiteUrl(game.website);
+            return validWebsite ? (
+              <Box>
+                <Link 
+                  href={validWebsite} 
+                  isExternal 
+                  color="blue.400"
+                  display="flex"
+                  alignItems="center"
+                  gap={2}
+                  _hover={{ color: "blue.300" }}
+                >
+                  Visit {getDomainFromUrl(validWebsite)}
+                  <FaExternalLinkAlt size={12} />
+                </Link>
+              </Box>
+            ) : null;
+          })()}
+
+          {/* YouTube Video */}
+          <Box>
+            <Text fontWeight="bold" color={textColor} marginBottom={2}>
+              Video Content:
+            </Text>
+            <YouTubeVideoCard gameName={game.name} compact={false} />
+          </Box>
         </VStack>
       </SimpleGrid>
 

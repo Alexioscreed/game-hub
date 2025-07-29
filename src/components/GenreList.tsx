@@ -26,24 +26,29 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
 
   return (
     <>
-      <Heading fontSize='2xl' marginBottom={3}>Genres</Heading>
-      <List>
+      <Heading fontSize={{ base: 'xl', lg: '2xl' }} marginBottom={3}>Genres</Heading>
+      <List spacing={{ base: 1, lg: 0 }}>
         {data.map((genre) => (
-          <ListItem key={genre.id} padding="5px">
-            <HStack>
+          <ListItem key={genre.id} padding={{ base: "8px 4px", lg: "5px" }}>
+            <HStack spacing={{ base: 2, lg: 3 }}>
               <Image
-                boxSize="32px"
+                boxSize={{ base: "24px", lg: "32px" }}
                 borderRadius={8}
                 objectFit="cover"
                 src={getCroppedImageUrl(genre.image_background)}
+                fallbackSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%23ddd'/%3E%3C/svg%3E"
               />
               <Button
                 whiteSpace="normal"
                 textAlign="left"
                 fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
                 onClick={() => onSelectGenre(genre)}
-                fontSize="lg"
+                fontSize={{ base: "md", lg: "lg" }}
                 variant="link"
+                width="100%"
+                justifyContent="flex-start"
+                height="auto"
+                minHeight={{ base: "32px", lg: "auto" }}
               >
                 {genre.name}
               </Button>

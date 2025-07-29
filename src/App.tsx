@@ -5,7 +5,6 @@ import {
   GridItem,
   HStack,
   Heading,
-  Show,
 } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
@@ -30,12 +29,12 @@ function App() {
   return (
     <Grid
       templateAreas={{
-        base: `"nav" "main"`,
+        base: `"nav" "aside" "main"`,
         lg: `"nav nav" "aside main"`, //.1024p
       }}
       templateColumns={{
         base: "1fr",
-        lg: "200px ifr",
+        lg: "250px 1fr",
       }}
     >
       <GridItem area="nav">
@@ -43,19 +42,17 @@ function App() {
           onSearch={(searchText) => setGameQUery({ ...gameQuery, searchText })}
         />
       </GridItem>
-      <Show above="lg">
-        <GridItem area="aside" paddingX={5}>
-          <GenreList
-            selectedGenre={gameQuery.genre}
-            onSelectGenre={(genre) => setGameQUery({ ...gameQuery, genre })}
-          />
-        </GridItem>
-      </Show>
+      <GridItem area="aside" paddingX={{ base: 4, lg: 5 }} paddingY={{ base: 4, lg: 0 }}>
+        <GenreList
+          selectedGenre={gameQuery.genre}
+          onSelectGenre={(genre) => setGameQUery({ ...gameQuery, genre })}
+        />
+      </GridItem>
       <GridItem area="main">
-        <Box paddingLeft={2}>
+        <Box paddingLeft={{ base: 4, lg: 2 }} paddingRight={{ base: 4, lg: 0 }}>
           <GameHeading gameQuery={gameQuery} />
-          <Flex marginBottom={5}>
-            <Box marginRight={5}>
+          <Flex marginBottom={5} direction={{ base: "column", md: "row" }} gap={{ base: 3, md: 0 }}>
+            <Box marginRight={{ base: 0, md: 5 }}>
               <PlatformSelector
                 selectedPlatform={gameQuery.platform}
                 onSelectPlatform={(platform) =>

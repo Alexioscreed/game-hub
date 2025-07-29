@@ -1,11 +1,15 @@
 import {
   Box,
+  Button,
+  Collapse,
   Flex,
   Grid,
   GridItem,
   HStack,
   Heading,
+  useBreakpointValue,
 } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
@@ -25,6 +29,8 @@ export interface GameQuery {
 
 function App() {
   const [gameQuery, setGameQUery] = useState<GameQuery>({} as GameQuery);
+  const [showGenres, setShowGenres] = useState(false);
+  const isMobile = useBreakpointValue({ base: true, lg: false });
 
   return (
     <Grid
@@ -42,11 +48,30 @@ function App() {
           onSearch={(searchText) => setGameQUery({ ...gameQuery, searchText })}
         />
       </GridItem>
-      <GridItem area="aside" paddingX={{ base: 4, lg: 5 }} paddingY={{ base: 4, lg: 0 }}>
-        <GenreList
-          selectedGenre={gameQuery.genre}
-          onSelectGenre={(genre) => setGameQUery({ ...gameQuery, genre })}
-        />
+      <GridItem area="aside" paddingX={{ base: 4, lg: 5 }} paddingY={{ base: 0, lg: 0 }}>
+        {isMobile && (
+          <Box paddingY={4}>
+            <Button
+              onClick={() => setShowGenres(!showGenres)}
+              variant="outline"
+              size="sm"
+              width="100%"
+              rightIcon={showGenres ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            >
+              {showGenres ? "Hide Genres" : "Show Genres"}
+            </Button>
+          </Box>
+        )}
+        
+        <Collapse in={!isMobile || showGenres} animateOpacity>
+          <GenreList
+            selectedGenre={gameQuery.genre}
+            onSelectGenre={(genre) => {
+              setGameQUery({ ...gameQuery, genre });
+              if (isMobile) setShowGenres(false); // Auto-hide on mobile after selection
+            }}
+          />
+        </Collapse>
       </GridItem>
       <GridItem area="main">
         <Box paddingLeft={{ base: 4, lg: 2 }} paddingRight={{ base: 4, lg: 0 }}>

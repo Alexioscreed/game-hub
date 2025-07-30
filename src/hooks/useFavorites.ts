@@ -1,4 +1,4 @@
-import { Game } from "./useGames";
+import { Game } from "../types";
 import useLocalStorage from "./useLocalStorage";
 
 const useFavorites = () => {

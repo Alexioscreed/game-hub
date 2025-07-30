@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GameDetails } from "../types";
-import apiClient from "../services/api-client";
+import APIClient from "../services/api-client";
 import { CanceledError } from "axios";
 
 const useGame = (id: string | undefined) => {
@@ -13,13 +13,12 @@ const useGame = (id: string | undefined) => {
 
     setLoading(true);
     const controller = new AbortController();
+    const client = new APIClient<GameDetails>("/games");
 
-    apiClient
-      .get<GameDetails>(`/games/${id}`, {
-        signal: controller.signal,
-      })
+    client
+      .get(id)
       .then((res) => {
-        setGame(res.data);
+        setGame(res);
         setLoading(false);
       })
       .catch((err) => {

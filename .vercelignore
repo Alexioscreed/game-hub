@@ -1,29 +1,33 @@
-# Dependencies
+###############################################################################
+# Minimal, safe .vercelignore for a Vite React app
+# Do NOT ignore source files like `src/` or `public/` — they are required to build
+###############################################################################
+
+# Package manager artifacts (Vercel installs deps itself)
 node_modules
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Environment files
+# Local env files (handled via Vercel env vars)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Development files
-src
-public
-*.md
-.git
-.gitignore
+# Editor/OS cruft
+.vscode/
+.idea/
+.DS_Store
 
-# Build tools
-tsconfig.json
-tsconfig.node.json
-vite.config.ts
+# Vercel project metadata (auto-generated locally)
+.vercel
 
-# IDE
-.vscode
-.idea
+# Build outputs (Vercel builds from source)
+dist
+dist-ssr
 
 # Logs
 logs

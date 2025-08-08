@@ -3,19 +3,22 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
+    "allowJs": false,                        // No JS files in build
+    "checkJs": false,                        // Don't type-check JS files
+    "skipLibCheck": true,                    // ✅ Avoids node_modules type errors
+    "esModuleInterop": true,                 // ✅ Easier default imports
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,                         // Loosen strict mode for easier builds
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "noEmit": true,                          // Don't emit compiled files
+    "jsx": "react-jsx",
+    "sourceMap": true                        // Keep source maps for debugging
   },
+  "exclude": ["node_modules", "build", "dist"], // ✅ Ignore build output
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

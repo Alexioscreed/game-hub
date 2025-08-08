@@ -7,11 +7,21 @@
     <title>Game Hub</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="padding: 20px; font-family: Arial;">
+        <h1>Loading Game Hub...</h1>
+        <p>If this message persists, there may be a loading issue.</p>
+      </div>
+    </div>
     <script>
       // Debug script loading
+      console.log('HTML loaded');
       window.addEventListener('error', function(e) {
         console.error('Script loading error:', e);
+        document.getElementById('root').innerHTML = '<div style="padding: 20px; color: red;"><h1>Error Loading App</h1><p>' + e.message + '</p></div>';
+      });
+      window.addEventListener('load', function() {
+        console.log('Page fully loaded');
       });
     </script>
     <script type="module" src="/src/main.tsx"></script>

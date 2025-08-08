@@ -5,8 +5,20 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
+    sourcemap: true,
     rollupOptions: {
-      input: './index.html'
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          chakra: ['@chakra-ui/react', '@emotion/react', '@emotion/styled'],
+          router: ['react-router-dom']
+        }
+      }
     }
+  },
+  base: '/',
+  server: {
+    port: 5173,
+    host: true
   }
 })

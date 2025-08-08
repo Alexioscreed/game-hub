@@ -30,9 +30,7 @@ const HomePage = () => {
   // Handle URL search parameters
   useEffect(() => {
     const searchText = searchParams.get("search");
-    if (searchText) {
-      setGameQuery(prev => ({ ...prev, searchText }));
-    }
+    setGameQuery(prev => ({ ...prev, searchText: searchText || undefined }));
   }, [searchParams]);
 
   // Clear all filters function
@@ -41,7 +39,7 @@ const HomePage = () => {
     navigate("/"); // Clear URL params as well
     toast({
       title: "Filters cleared",
-      description: "All filters have been reset",
+      description: "All filters and search have been reset",
       status: "success",
       duration: 2000,
       isClosable: true,

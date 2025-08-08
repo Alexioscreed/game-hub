@@ -8,12 +8,15 @@ const Layout = () => {
   const location = useLocation();
 
   const handleSearch = useCallback((searchText: string) => {
-    // Navigate to home page with search query
-    if (location.pathname !== "/") {
+    // Always navigate to home page with search query, even if already on home page
+    // This ensures the URL params are updated and HomePage can react to the change
+    if (searchText.trim()) {
       navigate(`/?search=${encodeURIComponent(searchText)}`, { replace: false });
+    } else {
+      // If search is empty, navigate to home without search params
+      navigate("/", { replace: false });
     }
-    // If already on home page, the search will be handled by HomePage component
-  }, [navigate, location.pathname]);
+  }, [navigate]);
 
   return (
     <Grid

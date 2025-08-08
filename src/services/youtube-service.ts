@@ -3,7 +3,7 @@ import { YouTubeVideo } from '../types';
 const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
-// Demo video for when API key is not available
+// Demo video for when API key is not available (dev only)
 const DEMO_VIDEO: YouTubeVideo = {
   id: 'dQw4w9WgXcQ',
   title: 'Game Trailer Demo',
@@ -13,16 +13,20 @@ const DEMO_VIDEO: YouTubeVideo = {
 };
 
 export const searchGameVideo = async (gameName: string): Promise<YouTubeVideo | null> => {
-  // If no API key is available, return demo video
+  // If no API key: in dev, use a demo video; in prod, show nothing
   if (!YOUTUBE_API_KEY || YOUTUBE_API_KEY === 'your_youtube_api_key_here') {
-    console.log('YouTube API key not configured, using demo video');
-    return DEMO_VIDEO;
+    if (import.meta.env.DEV) {
+      console.log('YouTube API key not configured (DEV), using demo video');
+      return DEMO_VIDEO;
+    }
+    return null;
   }
 
   try {
-    const searchQuery = `${gameName} game trailer gameplay`;
+    // Prefer official trailers; fall back to gameplay
+    const searchQuery = `${gameName} official game trailer`;
     const response = await fetch(
-      `${YOUTUBE_API_BASE_URL}/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&maxResults=1&key=${YOUTUBE_API_KEY}`
+      `${YOUTUBE_API_BASE_URL}/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&videoEmbeddable=true&maxResults=1&order=relevance&key=${YOUTUBE_API_KEY}`
     );
 
     if (!response.ok) {
@@ -45,8 +49,8 @@ export const searchGameVideo = async (gameName: string): Promise<YouTubeVideo | 
     return null;
   } catch (error) {
     console.error('Error fetching YouTube video:', error);
-    // Return demo video as fallback
-    return DEMO_VIDEO;
+    // In prod, don't show an unrelated demo video
+    return import.meta.env.DEV ? DEMO_VIDEO : null;
   }
 };
 

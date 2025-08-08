@@ -43,7 +43,13 @@ const YouTubeVideoCard: React.FC<Props> = ({ gameName, compact = false }) => {
   }
 
   if (error || !video) {
-    return null; // Don't show anything if no video found
+    return compact ? null : (
+      <Box p={4} borderWidth="1px" borderRadius="md" bg="gray.700">
+        <Text fontSize="sm" color="gray.300">
+          No trailer found for "{gameName}".
+        </Text>
+      </Box>
+    );
   }
 
   const handleVideoLoad = () => {

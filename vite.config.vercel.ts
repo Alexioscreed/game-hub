@@ -19,5 +19,5 @@ export default defineConfig({
       '@': '/src'
     }
   },
-  base: '/'
+  base: './'  // Use relative paths for deployment
 })

@@ -8,17 +8,11 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       onwarn(warning, warn) {
-        // Suppress certain warnings during build
+        // Suppress warnings that might cause build failures
         if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return
         if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return
         warn(warning)
       }
-    }
-  },
-  esbuild: {
-    // Don't fail on TypeScript issues
-    logOverride: {
-      'this-is-undefined-in-esm': 'silent'
     }
   }
 })

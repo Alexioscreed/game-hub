@@ -8,10 +8,17 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    target: 'es2015', // More compatible target
     rollupOptions: {
       input: './index.html',
       external: [],
-      onwarn: () => {} // Suppress all warnings
+      onwarn: () => {}, // Suppress all warnings
+      output: {
+        format: 'es',
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
     }
   },
   resolve: {
@@ -19,5 +26,8 @@ export default defineConfig({
       '@': '/src'
     }
   },
-  base: './'  // Use relative paths for deployment
+  base: '/',  // Use absolute paths
+  define: {
+    'process.env.NODE_ENV': '"production"'
+  }
 })

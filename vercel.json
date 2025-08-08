@@ -1,9 +1,3 @@
 {
-  "framework": "vite",
-  "buildCommand": "npm run build:vercel",
-  "outputDirectory": "dist",
-  "env": {
-    "VITE_RAWG_API_KEY": "c5766c2acac84ddc9f02707535453625",
-    "VITE_YOUTUBE_API_KEY": "AIzaSyCy4kZyqSz9ERTVmNaNS2qxeccSzwD79wk"
-  }
+  "framework": "vite"
 }

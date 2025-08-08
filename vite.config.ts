@@ -7,6 +7,9 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     rollupOptions: {
+      input: {
+        main: './index.html'
+      },
       onwarn(warning, warn) {
         // Suppress warnings that might cause build failures
         if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return
@@ -14,5 +17,6 @@ export default defineConfig({
         warn(warning)
       }
     }
-  }
+  },
+  base: './'
 })

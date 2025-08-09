@@ -1,5 +1,5 @@
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
 interface Props {
@@ -8,6 +8,16 @@ interface Props {
 
 const SearchInput = ({onSearch}: Props) => {
   const ref = useRef<HTMLInputElement>(null);
+  const [searchText, setSearchText] = useState('');
+
+  // Auto-search with debounce
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      onSearch(searchText);
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timeoutId);
+  }, [searchText, onSearch]);
 
   return (
     <form onSubmit={(event) => {
@@ -16,7 +26,10 @@ const SearchInput = ({onSearch}: Props) => {
     }}>
       <InputGroup>
         <InputLeftElement children={<BsSearch />} />
-        <Input ref={ref}
+        <Input 
+          ref={ref}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
           borderRadius={20}
           placeholder="Search games..."
           variant="filled"

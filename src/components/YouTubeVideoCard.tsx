@@ -30,7 +30,7 @@ const YouTubeVideoCard: React.FC<Props> = ({ gameName, compact = false }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isVideoLoading, setIsVideoLoading] = useState(true);
 
-  const cardBg = useColorModeValue('gray.50', 'gray.800');
+  const cardBg = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.600', 'gray.300');
 
   if (isLoading) {
@@ -44,8 +44,8 @@ const YouTubeVideoCard: React.FC<Props> = ({ gameName, compact = false }) => {
 
   if (error || !video) {
     return compact ? null : (
-      <Box p={4} borderWidth="1px" borderRadius="md" bg={cardBg}>
-        <Text fontSize="sm" color={textColor}>
+      <Box p={4} borderWidth="1px" borderRadius="md" bg="gray.700">
+        <Text fontSize="sm" color="gray.300">
           No trailer found for "{gameName}".
         </Text>
       </Box>

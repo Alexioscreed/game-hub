@@ -16,7 +16,7 @@ interface Props {
 
 const LoadingWithProgress = ({ isLoading, message = "Loading games..." }: Props) => {
   const [progress, setProgress] = useState(0);
-  const bgColor = useColorModeValue("white", "gray.800");
+  const bgColor = useColorModeValue("gray.50", "gray.800");
   const textColor = useColorModeValue("gray.600", "gray.300");
 
   useEffect(() => {

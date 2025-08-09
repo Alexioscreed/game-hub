@@ -1,18 +1,19 @@
 
 import { GameQuery, Game } from "../types";
-import useData from "./useData";
+import useInfiniteData from "./useInfiniteData";
 
 const useGames = (
     gameQuery: GameQuery
 ) =>
-    useData<Game>(
+    useInfiniteData<Game>(
         '/games',
         {
              params: {
                 genres: gameQuery.genre?.id,
                 platforms: gameQuery.platform?.id,
                 ordering: gameQuery.sortOrder,
-                search: gameQuery.searchText
+                search: gameQuery.searchText,
+                page_size: 20 // Explicitly set page size
             },
         }, 
         [gameQuery]

@@ -34,7 +34,7 @@ const GameDetailPage = () => {
   const { isFavorite, toggleFavorite } = useFavorites();
   const { addToRecentlyViewed } = useRecentlyViewed();
 
-  const cardBg = useColorModeValue("white", "gray.800");
+  const cardBg = useColorModeValue("gray.50", "gray.800");
   const textColor = useColorModeValue("gray.600", "gray.300");
   const heartColor = useColorModeValue("red.500", "red.300");
 

@@ -8,15 +8,23 @@ const Layout = () => {
   const location = useLocation();
 
   const handleSearch = useCallback((searchText: string) => {
-    // Always navigate to home page with search query, even if already on home page
-    // This ensures the URL params are updated and HomePage can react to the change
-    if (searchText.trim()) {
-      navigate(`/?search=${encodeURIComponent(searchText)}`, { replace: false });
-    } else {
-      // If search is empty, navigate to home without search params
-      navigate("/", { replace: false });
+    // Only navigate if we're on the home page or search changes
+    // This prevents interfering with game detail page navigation
+    const isOnHomePage = location.pathname === '/';
+    const currentSearchParams = new URLSearchParams(location.search);
+    const currentSearch = currentSearchParams.get('search') || '';
+    
+    // Only navigate if search text has actually changed and we're on home page
+    // or if we need to go back to home page for a new search
+    if (searchText.trim() !== currentSearch) {
+      if (searchText.trim()) {
+        navigate(`/?search=${encodeURIComponent(searchText)}`, { replace: !isOnHomePage });
+      } else if (isOnHomePage) {
+        // If search is empty and we're on home, just remove search params
+        navigate("/", { replace: true });
+      }
     }
-  }, [navigate]);
+  }, [navigate, location]);
 
   return (
     <Grid

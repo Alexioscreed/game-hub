@@ -14,7 +14,7 @@ const SearchInput = ({onSearch}: Props) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       onSearch(searchText);
-    }, 500); // 500ms delay
+    }, 800); // Increased delay to 800ms to reduce conflicts with navigation
 
     return () => clearTimeout(timeoutId);
   }, [searchText, onSearch]);

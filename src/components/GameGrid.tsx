@@ -1,6 +1,6 @@
-import { SimpleGrid, Text, Box, Badge } from "@chakra-ui/react";
+import { SimpleGrid, Text, Box, Badge, Button, VStack, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import useGames from "../hooks/useGames";
+import useInfiniteGames from "../hooks/useInfiniteGames";
 import GameCard from "./GameCard";
 import GameCardSkeleton from "./GameCardSkeleton";
 import GameCardContainer from "./GameCardContainer";
@@ -11,18 +11,18 @@ interface Props {
 }
 
 const GameGrid = ({ gameQuery }: Props) => {
-  const { data, error, isLoading, count } = useGames(gameQuery);
+  const { data, error, isLoading, isLoadingMore, count, hasNextPage, loadMore } = useInfiniteGames(gameQuery);
   const skeletons = [1, 2, 3, 4, 5, 6];
 
   if (error) return <Text>{error}</Text>;
 
   return (
-    <Box padding="10px">
+    <VStack spacing={6} padding="10px">
       {/* Game Count Indicator */}
       {!isLoading && count > 0 && (
-        <Box marginBottom={4} textAlign="center">
+        <Box textAlign="center">
           <Badge colorScheme="blue" fontSize="md" padding={2}>
-            {count.toLocaleString()} games found
+            Showing {data.length} of {count.toLocaleString()} games
           </Badge>
         </Box>
       )}
@@ -43,7 +43,31 @@ const GameGrid = ({ gameQuery }: Props) => {
           </GameCardContainer>
         ))}
       </SimpleGrid>
-    </Box>
+
+      {/* Load More Button */}
+      {hasNextPage && !isLoading && (
+        <Button
+          onClick={loadMore}
+          isLoading={isLoadingMore}
+          loadingText="Loading more games..."
+          colorScheme="blue"
+          variant="outline"
+          size="lg"
+          _hover={{ transform: "translateY(-2px)", boxShadow: "lg" }}
+          transition="all 0.2s"
+        >
+          Load More Games
+        </Button>
+      )}
+
+      {/* Loading indicator for load more */}
+      {isLoadingMore && (
+        <VStack spacing={2}>
+          <Spinner size="lg" color="blue.500" />
+          <Text fontSize="sm" color="gray.500">Loading more games...</Text>
+        </VStack>
+      )}
+    </VStack>
   );
 };
 
